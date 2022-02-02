@@ -6,7 +6,7 @@
         <h3 class="text-gray-700 text-3xl font-medium">Статьи</h3>
 
         <div class="mt-8">
-            <a href="{{route('admin.posts.create')}}" class="text-indigo-600 hover:text-indigo-900">Добавить</a>
+            <a href="{{route('admin.posts.create')}}" class="bg-indigo-600 hover:bg-indigo-800 text-white font-bold py-2 px-4 rounded">Добавить</a>
         </div>
 
         <div class="flex flex-col mt-8">
