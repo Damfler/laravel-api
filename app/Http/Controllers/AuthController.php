@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AuthForgotRequest;
+use App\Http\Requests\AuthRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Mail\FogoutPassword;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -14,12 +17,9 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    public function login(Request $request)
+    public function login(AuthRequest $request)
     {
-        $data = $request->validate([
-            'email' => ['required', 'email', 'string'],
-            'password' => ['required']
-        ]);
+        $data = $request->validated();
 
         if (auth('web')->attempt($data))
             return redirect(route('home'));
@@ -32,11 +32,9 @@ class AuthController extends Controller
         return view('auth.forgot');
     }
 
-    public function forgot(Request $request)
+    public function forgot(AuthForgotRequest $request)
     {
-        $data = $request->validate([
-            'email' => ['required', 'email', 'string', 'exists:users'],
-        ]);
+        $data = $request->validated();
 
         $user = User::query()->where(['email' => $data['email']])->first();
 
@@ -61,13 +59,9 @@ class AuthController extends Controller
         return view('auth.register');
     }
 
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-        $data = $request->validate([
-            'name' => ['required', 'string'],
-            'email' => ['required', 'email', 'string', 'unique:users,email'],
-            'password' => ['required', 'confirmed']
-        ]);
+        $data = $request->validated();
 
         $user = User::create([
             'name' => $data['name'],

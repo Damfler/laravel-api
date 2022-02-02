@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AuthRequest;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
@@ -12,12 +13,9 @@ class AuthController extends Controller
         return view('admin.auth.login');
     }
 
-    public function login(Request $request)
+    public function login(AuthRequest $request)
     {
-        $data = $request->validate([
-            'email' => ['required', 'email', 'string'],
-            'password' => ['required']
-        ]);
+        $data = $request->validated();
 
         if (auth('admin')->attempt($data))
             return redirect(route('admin.posts.index'));
